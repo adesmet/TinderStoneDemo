@@ -14,16 +14,43 @@ import {
 } from 'react-native';
 
 class TinderStoneDemo extends Component {
+  constructor(){
+    super();
+    this.state={
+      cards: [],
+      cardLeft: {
+        img: 'http://wow.zamimg.com/images/hearthstone/cards/enus/original/EX1_025t.png'
+      },
+      cardRight: {}
+    }
+  }
+
+  async componentWillMount(){
+    let cards = await fetch('https://omgvamp-hearthstone-v1.p.mashape.com/cards/sets/Basic', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-Mashape-Key': 'PEf9uWxXX0mshDcbhNGEZYSZCtiTp1iFrizjsnE6MAlLkFma1e'
+        }
+      }).then((response) => response.json())
+
+    let validCards = cards.filter((card) => card.img != null && card.imgGold != null);
+
+    this.setState({cards: validCards});
+
+    console.log('cards:', validCards);
+  }
 
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.randomize}>
           <Image
-            source={{uri: 'http://wow.zamimg.com/images/hearthstone/cards/enus/original/EX1_025t.png'}}
+            source={{uri: this.state.cardLeft.img}}
             style={styles.card}/>
           <Image
-            source={{uri: 'http://wow.zamimg.com/images/hearthstone/cards/enus/original/EX1_025t.png'}}
+            source={{uri: this.state.cardRight.img}}
             style={styles.card}/>
         </View>
         <View style={styles.bottomBar}>
