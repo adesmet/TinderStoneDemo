@@ -9,16 +9,22 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
+  Image,
   View
 } from 'react-native';
 
 class TinderStoneDemo extends Component {
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.randomize}>
-          <View style={styles.card}/>
-          <View style={styles.card}/>
+          <Image
+            source={{uri: 'http://wow.zamimg.com/images/hearthstone/cards/enus/original/EX1_025t.png'}}
+            style={styles.card}/>
+          <Image
+            source={{uri: 'http://wow.zamimg.com/images/hearthstone/cards/enus/original/EX1_025t.png'}}
+            style={styles.card}/>
         </View>
         <View style={styles.bottomBar}>
           <View style={styles.icon}/>
@@ -49,7 +55,6 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   card:{
-    backgroundColor: 'green',
     margin:10,
     height: 265,
     width: 200
