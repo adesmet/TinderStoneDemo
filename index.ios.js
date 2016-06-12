@@ -10,7 +10,8 @@ import {
   StyleSheet,
   Text,
   Image,
-  View
+  View,
+  TouchableHighlight
 } from 'react-native';
 
 class TinderStoneDemo extends Component {
@@ -23,6 +24,8 @@ class TinderStoneDemo extends Component {
       },
       cardRight: {}
     }
+
+    this.randomize = this.randomize.bind(this);
   }
 
   async componentWillMount(){
@@ -38,8 +41,17 @@ class TinderStoneDemo extends Component {
     let validCards = cards.filter((card) => card.img != null && card.imgGold != null);
 
     this.setState({cards: validCards});
+    this.randomize()
 
     console.log('cards:', validCards);
+  }
+
+  randomize(){
+    let validCards = this.state.cards;
+    let cardLeft = validCards[Math.floor(Math.random()*validCards.length)];
+    let cardRight = validCards[Math.floor(Math.random()*validCards.length)];
+
+    this.setState({cardLeft, cardRight});
   }
 
   render() {
@@ -54,7 +66,9 @@ class TinderStoneDemo extends Component {
             style={styles.card}/>
         </View>
         <View style={styles.bottomBar}>
-          <View style={styles.icon}/>
+          <TouchableHighlight onPress={this.randomize}>
+            <View style={styles.icon}/>
+          </TouchableHighlight>
           <View style={styles.iconFlex}/>
           <View style={styles.icon}/>
         </View>
