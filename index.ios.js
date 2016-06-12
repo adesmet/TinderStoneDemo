@@ -22,7 +22,8 @@ class TinderStoneDemo extends Component {
       cardLeft: {
         img: 'http://wow.zamimg.com/images/hearthstone/cards/enus/original/EX1_025t.png'
       },
-      cardRight: {}
+      cardRight: {},
+      lockedLeft: false
     }
 
     this.randomize = this.randomize.bind(this);
@@ -48,22 +49,30 @@ class TinderStoneDemo extends Component {
 
   randomize(){
     let validCards = this.state.cards;
-    let cardLeft = validCards[Math.floor(Math.random()*validCards.length)];
-    let cardRight = validCards[Math.floor(Math.random()*validCards.length)];
+    let cardLeft = this.state.lockedLeft ? this.state.cardLeft : validCards[Math.floor(Math.random()*validCards.length)];
+    let cardRight = this.state.lockedRight ? this.state.cardRight : validCards[Math.floor(Math.random()*validCards.length)];
 
     this.setState({cardLeft, cardRight});
   }
 
   render() {
+    let leftCardSource = this.state.lockedLeft ? this.state.cardLeft.imgGold : this.state.cardLeft.img;
+    let rightCardSource = this.state.lockedRight ? this.state.cardRight.imgGold : this.state.cardRight.img;
+
     return (
       <View style={styles.container}>
         <View style={styles.randomize}>
-          <Image
-            source={{uri: this.state.cardLeft.img}}
-            style={styles.card}/>
-          <Image
-            source={{uri: this.state.cardRight.img}}
-            style={styles.card}/>
+          <TouchableHighlight onPress={() => this.setState({lockedLeft: !this.state.lockedLeft})}>
+            <Image
+              source={{uri: leftCardSource}}
+              style={styles.card}/>
+          </TouchableHighlight>
+          <TouchableHighlight onPress={() => this.setState({lockedRight: !this.state.lockedRight})}>
+            <Image
+              source={{uri: rightCardSource}}
+              style={styles.card}/>
+          </TouchableHighlight>
+
         </View>
         <View style={styles.bottomBar}>
           <TouchableHighlight onPress={this.randomize}>
